@@ -2,6 +2,6 @@
     "name": "henry-create-react-app",
     "version": "1.0.0",
     "bin": {
-	    "henry-create-react-app": "index.js"
+	    "henry-create-react-app-dev": "index.js"
     }
 }

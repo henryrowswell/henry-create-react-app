@@ -64,7 +64,6 @@ function createApp(name) {
 
     const originalDirectory = process.cwd(); // same as __dirname?
     process.chdir(root);
-
     run(originalDirectory);
 }
 
@@ -164,6 +163,19 @@ function run(originalDirectory) {
     .then(
         () => {
             console.log('init stuff like copying template') // also init a git repo and make first commit
+            
+            // copy everything from template
+            const templatePath = path.join(__dirname, 'template/')
+            if (fs.existsSync(templatePath)) {
+                console.log('template path: ', templatePath)
+                fs.copySync(templatePath, process.cwd())
+            } else {
+                console.error(`Could not locate template`);
+            }
+
+            // setup git
+            cp.execSync('git init', { stdio: 'inherit' })
+
             console.log('done-zo')
             process.exit(1);
         }, 
@@ -183,7 +195,8 @@ function install(dependencies) {
         let command;
         let args;
         
-        command = 'npm install -s react react-dom redux'; // could pass in more dependencies as args
+        // may want babel-preset-es2015 (and add to .babelrc)
+        command = 'npm install -s react react-dom redux react-redux webpack babel-core babel-loader babel-preset-latest babel-preset-react'; // could pass in more dependencies as args
 
         // for use with spawn instead of execSync
         // args = [
